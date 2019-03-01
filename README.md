@@ -22,3 +22,5 @@ python object_6d_pose.py --trained_model trained_network/20190125-125611_cp/mode
 ```
 Translation prediction is in unit meter.
 Rotation prediction is in axis-angle format.
+
+More on the way!
