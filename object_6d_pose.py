@@ -20,11 +20,11 @@ color_file = os.path.join(DATA_PATH, 'color.png')
 depth_file = os.path.join(DATA_PATH, 'depth.png')
 label_file = os.path.join(DATA_PATH, 'label.png')
 
-total_target_cls = np.arange(21) # total number of classes
+total_num_cls = np.arange(21) # total number of classes
 
 # For data pre-processing
 num_points_per_sample_FPS = 1024 # number of points after Furthest Point Sampling
-threshold_distance_per_class = 0.2 * np.ones((len(total_target_cls),), dtype=np.float32) # box filtering threshold
+threshold_distance_per_class = 0.2 * np.ones((len(total_num_cls),), dtype=np.float32) # box filtering threshold
 
 b_visual = True
 
@@ -46,7 +46,7 @@ def create_dataset(num_points_per_sample_FPS, threshold_distance_per_class, targ
     ds = ds.flat_map(data_process_tools.read_data)
     ds = ds.flat_map(data_process_tools.split_samples)
     ds = ds.map(lambda x: data_process_tools.segment_filter(x, threshold_distance_per_class))
-    ds = ds.filter(lambda x: tf.equal(x["class_id"], total_target_cls[target_cls_choosen]))  # only take target cls segment
+    ds = ds.filter(lambda x: tf.equal(x["class_id"], total_num_cls[target_cls_choosen]))  # only take target cls segment
     ds = ds.map(lambda x: data_process_tools.segment_sample_FPS(x, num_points_per_sample_FPS, threshold_distance_per_class))
     return ds
 
@@ -126,7 +126,7 @@ def setup_graph(general_opts, hyperparameters):
 
             xyz_normalized = next_element_xyz - tf.expand_dims(element_mean, 1)
 
-            cls_gt_onehot = tf.one_hot(indices=next_element['class_id'], depth=len(total_target_cls))
+            cls_gt_onehot = tf.one_hot(indices=next_element['class_id'], depth=len(total_num_cls))
             cls_gt_onehot_expand = tf.expand_dims(cls_gt_onehot, axis=1)
             cls_gt_onehot_tile = tf.tile(cls_gt_onehot_expand, [1, NUM_POINT, 1])
 
@@ -205,8 +205,8 @@ def eval_graph(sess, ops, test_handle):
                 segment_ptCloud.colors = open3d.Vector3dVector(rgb[batch_sample_idx,:,:])
 
                 model_pCloud = open3d.PointCloud()
-                model_pCloud.points = open3d.Vector3dVector(obj_batch[batch_sample_idx, :, 0:3])
-                model_pCloud.colors = open3d.Vector3dVector(obj_batch[batch_sample_idx, :, 3:6])
+                model_pCloud.points = open3d.Vector3dVector(obj_batch[batch_sample_idx, 0:512, 0:3])
+                # model_pCloud.colors = open3d.Vector3dVector(obj_batch[batch_sample_idx, 0:512, 3:6])
                 model_pCloud.paint_uniform_color([0.1, 0.9, 0.1])
 
                 model_frame = open3d.create_mesh_coordinate_frame(size=0.1, origin=[0, 0, 0])

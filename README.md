@@ -33,8 +33,8 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 * Rotation prediction is in axis-angle format.
 3. Result
 * If you turn on visualization with **b_visual=True**, you will see the following displays which are partially observed point cloud segments (colored) overlaid with object model (green) with pose estimates. 
-* The coordinate is object coordinate
-<p float="left">
+* The coordinate is the **object coordinate**, object segment is viewed in the **camera coordinate** 
+<p float="center">
   <img src="/figure/1.png" width="150" />
   <img src="/figure/3.png" width="150" /> 
   <img src="/figure/4.png" width="150" />
@@ -42,8 +42,4 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
   <img src="/figure/14.png" width="150" />
 </p>
 
-
-
-
-
-# Train your own network
+# Train a network
