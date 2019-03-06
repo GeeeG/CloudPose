@@ -32,7 +32,7 @@ This is an tensorflow implementation of estimating object 6D pose from a point c
 python object_6d_pose.py --trained_model trained_network/20190222-130143/model.ckpt --batch_size 1 --target_class 9
 ```
 * --trained_model: directory to trained model (*.ckpt).
-* --batch_size: set to 1 because only 1 test example.
+* --batch_size: set to 1 because only 1 test example is provided in this test.
 * --target_class: target class for pose estimation.
 * Translation prediction is in unit meter.
 * Rotation prediction is in axis-angle format.
