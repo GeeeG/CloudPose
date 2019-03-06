@@ -15,10 +15,12 @@ This is an tensorflow implementation of estimating object 6D pose from a point c
 * [transforms3d](https://matthew-brett.github.io/transforms3d/)
 * [open3d](http://www.open3d.org/docs/getting_started.html) for visualization
 
-# Usage
-After activate tensorflow
+# Test a trained network
+* After activate tensorflow
 ```
-python object_6d_pose.py --trained_model trained_network/20190222-130143/model.ckpt --batch_size 1
+python object_6d_pose.py --trained_model trained_network/20190222-130143/model.ckpt --batch_size 1 --target_class 9
 ```
 Translation prediction is in unit meter.
 Rotation prediction is in axis-angle format.
+
+# Train your own network
