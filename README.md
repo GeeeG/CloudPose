@@ -16,6 +16,7 @@ This is an tensorflow implementation of estimating object 6D pose from a point c
 * [open3d](http://www.open3d.org/docs/getting_started.html) for visualization
 
 # Test a trained network
+*
 * After activate tensorflow
 ```
 python object_6d_pose.py --trained_model trained_network/20190222-130143/model.ckpt --batch_size 1 --target_class 9
