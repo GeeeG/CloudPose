@@ -18,9 +18,7 @@ This is an tensorflow implementation of estimating object 6D pose from a point c
 # Usage
 After activate tensorflow
 ```
-python object_6d_pose.py --trained_model trained_network/20190125-125611_cp/model.ckpt --batch_size 1
+python object_6d_pose.py --trained_model trained_network/20190222-130143/model.ckpt --batch_size 1
 ```
 Translation prediction is in unit meter.
 Rotation prediction is in axis-angle format.
-
-More on the way!
