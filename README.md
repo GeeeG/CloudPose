@@ -7,8 +7,13 @@ This is an tensorflow implementation of estimating object 6D pose from a point c
 3. **object_model_tfrecord**: full object models for visualization purpose.
 4. **trained_network**: a trained network.
 5. **utils**: utility files for defining model structure.
-6. *data_process_tools.py*: tools for data pre-processing.
-7. *object_6d_pose.py*: main file for object 6d pose estimation.
+6. **log**: directory to store log files during training.
+7. **losses**: loss functions for training.
+8. **ycb_video_data_tfRecords**: training data (To be added).
+8. *data_process_tools.py*: tools for data pre-processing.
+9. *object_6d_pose.py*: main file for testing object 6d pose estimation with a trained network.
+10. *train_6d_pose.py*: script for training a network.
+
 
 # Requirements
 * Tensorflow-GPU (tested with 1.12.0)
@@ -43,3 +48,8 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 </p>
 
 # Train a network
+```
+python train_6d_pose.py
+```
+# Acknowledgement
+* The building block for this system is [PointNet](https://github.com/charlesq34/pointnet).
