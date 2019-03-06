@@ -32,10 +32,11 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 * Translation prediction is in unit meter.
 * Rotation prediction is in axis-angle format.
 3. Result
+![](/figure/1.png)
 <p float="left">
-  <img src="figure/1.png" width="100" />
-  <img src="figure/3.png" width="100" /> 
-  <img src="figure/4.png" width="100" />
+  <img src="/figure/1.png" width="100" />
+  <img src="/figure/3.png" width="100" /> 
+  <img src="/figure/4.png" width="100" />
 </p>
 
 
