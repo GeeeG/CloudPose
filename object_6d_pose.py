@@ -25,17 +25,13 @@ total_target_cls = np.arange(21) # total number of classes
 # For data pre-processing
 num_points_per_sample_FPS = 1024 # number of points after Furthest Point Sampling
 threshold_distance_per_class = 0.2 * np.ones((len(total_target_cls),), dtype=np.float32) # box filtering threshold
-class_vector = np.zeros(21) # class one hot vector
-# class_vector[1] = 1 # 003_cracker_box
-# class_vector[3] = 1 # 005_tomato_soup_can
-# class_vector[4] = 1 # 006_mstard_bottle
-class_vector[9] = 1  # 011_banana
-# class_vector[14] = 1 # 035_power_drill
 
 b_visual = True
 
 
 def create_dataset(num_points_per_sample_FPS, threshold_distance_per_class, target_cls_choosen):
+    class_vector = np.zeros(21)  # class one hot vector
+    class_vector[target_cls_choosen] = 1
     ds = tf.data.Dataset.from_tensors(
         {"color_file": tf.convert_to_tensor(color_file),
          "depth_file": tf.convert_to_tensor(depth_file),
