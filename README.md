@@ -32,6 +32,7 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 * Translation prediction is in unit meter.
 * Rotation prediction is in axis-angle format.
 3. Result
+* If you turn on visualization with **b_visual=True**, you will see the following displays which are partially observed point cloud segments (colored) overlaid with object model (green) with pose estimates. 
 <p float="left">
   <img src="/figure/1.png" width="150" />
   <img src="/figure/3.png" width="150" /> 
@@ -39,6 +40,7 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
   <img src="/figure/9.png" width="150" />
   <img src="/figure/14.png" width="150" />
 </p>
+* The coordinate is object coordinate
 
 
 
