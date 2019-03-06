@@ -21,19 +21,21 @@ depth_file = os.path.join(DATA_PATH, 'depth.png')
 label_file = os.path.join(DATA_PATH, 'label.png')
 
 total_target_cls = np.arange(21) # total number of classes
-target_cls_choosen = 9 # target class, 9 for banana
 
 # For data pre-processing
 num_points_per_sample_FPS = 1024 # number of points after Furthest Point Sampling
 threshold_distance_per_class = 0.2 * np.ones((len(total_target_cls),), dtype=np.float32) # box filtering threshold
 class_vector = np.zeros(21) # class one hot vector
-class_vector[target_cls_choosen] = 1  # banana
-class_vector[14] = 1 # 14 for power drill
+# class_vector[1] = 1 # 003_cracker_box
+# class_vector[3] = 1 # 005_tomato_soup_can
+# class_vector[4] = 1 # 006_mstard_bottle
+class_vector[9] = 1  # 011_banana
+# class_vector[14] = 1 # 035_power_drill
 
 b_visual = True
 
 
-def create_dataset(num_points_per_sample_FPS, threshold_distance_per_class):
+def create_dataset(num_points_per_sample_FPS, threshold_distance_per_class, target_cls_choosen):
     ds = tf.data.Dataset.from_tensors(
         {"color_file": tf.convert_to_tensor(color_file),
          "depth_file": tf.convert_to_tensor(depth_file),
@@ -84,6 +86,7 @@ def setup_graph(general_opts, hyperparameters):
     BATCH_SIZE = hyperparameters['batch_size']
     NUM_POINT = general_opts['num_point']
     GPU_INDEX = general_opts['gpu']
+    TARGET_CLASS = general_opts['target_class']
     MODEL = importlib.import_module(general_opts['model'])
     BN_INIT_DECAY = 0.5
     BN_DECAY_DECAY_RATE = 0.5
@@ -93,7 +96,7 @@ def setup_graph(general_opts, hyperparameters):
     with tf.Graph().as_default():
 
         with tf.device('/cpu:0'):
-            dataset = create_dataset(num_points_per_sample_FPS, threshold_distance_per_class)
+            dataset = create_dataset(num_points_per_sample_FPS, threshold_distance_per_class, TARGET_CLASS)
             dataset = dataset.batch(BATCH_SIZE, drop_remainder=False).prefetch(1)
             ds_iterator = dataset.make_initializable_iterator()
             iter_handle = tf.placeholder(tf.string, shape=[], name='iterator_handle')
@@ -118,7 +121,7 @@ def setup_graph(general_opts, hyperparameters):
             bn_decay = tf.minimum(BN_DECAY_CLIP, 1 - bn_momentum)
 
             obj_batch = tf.gather(obj_model_tf, next_element['class_id'], axis=0)
-            obj_batch = obj_batch[ 0:1024, :]
+            obj_batch = obj_batch[0:1024, :]
 
             next_element_xyz = next_element['xyz'][:, 0:NUM_POINT, :]
             next_element_rgb = next_element['rgb'][:, 0:NUM_POINT, :]
@@ -131,21 +134,13 @@ def setup_graph(general_opts, hyperparameters):
             cls_gt_onehot_expand = tf.expand_dims(cls_gt_onehot, axis=1)
             cls_gt_onehot_tile = tf.tile(cls_gt_onehot_expand, [1, NUM_POINT, 1])
 
-            with tf.name_scope('translation'):
-                trans_pred_res, max_indices_trans = \
-                    MODEL.get_trans_model(tf.concat([xyz_normalized, cls_gt_onehot_tile], axis=2),
-                                          is_training_pl, bn_decay=bn_decay)
+            with tf.name_scope('6d_pose'):
 
+                trans_pred_res, _ = MODEL.get_trans_model(tf.concat([xyz_normalized, cls_gt_onehot_tile], axis=2),
+                                                          is_training_pl, bn_decay=bn_decay)
                 trans_pred = trans_pred_res + element_mean
-
-            xyz_remove_trans = next_element_xyz - tf.expand_dims(trans_pred, axis=1)
-
-            with tf.name_scope('rotation'):
-                rot_pred, global_feat_rot, _, out_weight, out_biases, max_indices = \
-                    MODEL.get_rot_model(tf.concat([xyz_remove_trans, cls_gt_onehot_tile], axis=2),
-                                        is_training_pl, bn_decay=bn_decay)
-                rot_pred = tf.cast(rot_pred, tf.float64)
-
+                rot_pred, _ = MODEL.get_rot_model(tf.concat([next_element_xyz, cls_gt_onehot_tile], axis=2),
+                                                  is_training_pl, bn_decay=bn_decay)
             # Add ops to save and restore all the variables.
             saver = tf.train.Saver(max_to_keep=None)
 
@@ -231,10 +226,11 @@ def get_training_argparser():
 
     general = parser.add_argument_group('general')
     general.add_argument('--gpu', type=int, default=0, help='GPU to use [default: GPU 0]')
-    general.add_argument('--model', default='pointnet_ycb_18',
-                         help='Model name: pointnet_ycb_ [default: pointnet_ycb_18]')
+    general.add_argument('--model', default='pcpe_net',
+                         help='Model name: _ [default: pcpe_net]')
     general.add_argument('--num_point', type=int, default=256, help='Point Number [256/512/1024/2048] [default: 256]')
     general.add_argument('--trained_model', help='Path to trained model')
+    general.add_argument('--target_class', type=int, default=9, help='choose a target class')
 
     hyperparameters = parser.add_argument_group('hyperparameters')
     hyperparameters.add_argument('--batch_size', type=int, default=128, help='Batch Size [default: 128]')
