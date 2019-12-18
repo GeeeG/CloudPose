@@ -9,7 +9,6 @@ This is an tensorflow implementation of "Learning Object Pose Estimation with Po
 5. **utils**: utility files for defining model structure.
 6. **log**: directory to store log files during training.
 7. **losses**: loss functions for training.
-8. **ycb_video_data_tfRecords**: training data (To be added).
 8. *data_process_tools.py*: tools for data pre-processing.
 9. *object_6d_pose.py*: main file for testing object 6d pose estimation with a trained network.
 10. *train_6d_pose.py*: script for training a network.
