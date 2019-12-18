@@ -1,6 +1,6 @@
-# PCPE(Point Cloud Pose Estimation)
-This is an tensorflow implementation of estimating object 6D pose from a point cloud segment
-![](/figure/front_page.png?raw=true)
+# CloudPose
+This is an tensorflow implementation of "Learning Object Pose Estimation with Point Clouds"
+![](/figure/system_fig.png?raw=true)
 # Files
 1. **data**: a color, a depth and a label image for testing.
 2. **models**: a python file defining model structure.
