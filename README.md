@@ -50,5 +50,19 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 ```
 python train_6d_pose.py
 ```
+# Citation
+Further details are available in our paper on the subject. If you use this code in an academic context, please consider cite the paper:
+[arxiv version](https://arxiv.org/abs/2001.08942)
+
+BiBTeX:
+```
+@article{gao2020cloudpose,
+      title={6D Object Pose Regression via Supervised Learning on Point Clouds},
+      author={G. Gao, M. Lauri, Y. Wang, X. Hu, J. Zhang and S. Frintrop},
+      journal={arXiv preprint arXiv:2001.08942},
+      year={2020}
+    }
+```
+
 # Acknowledgement
 * The building block for this system is [PointNet](https://github.com/charlesq34/pointnet).
