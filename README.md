@@ -55,7 +55,7 @@ Further details are available in our paper on the subject. If you use this code 
 [arxiv version](https://arxiv.org/abs/2001.08942)
 
 # Video
-* [![Video](https://img.youtube.com/vi/OhNMngzxFDQ/0.jpg)](https://www.youtube.com/watch?v=OhNMngzxFDQ)
+[![Video](https://img.youtube.com/vi/OhNMngzxFDQ/0.jpg)](https://www.youtube.com/watch?v=OhNMngzxFDQ)
 
 
 BiBTeX:
