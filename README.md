@@ -56,7 +56,14 @@ Further details are available in our paper on the subject. If you use this code 
 
 # Video
 ```
-[![Video](https://img.youtube.com/vi/OhNMngzxFDQ/0.jpg)](https://www.youtube.com/watch?v=OhNMngzxFDQ)
+<div align="center">
+      <a href="https://www.youtube.com/watch?v=OhNMngzxFDQ">
+     <img 
+      src="https://img.youtube.com/vi/OhNMngzxFDQ/0.jpg" 
+      alt="CloudPose" 
+      style="width:100%;">
+      </a>
+    </div>
 ```
 
 BiBTeX:
