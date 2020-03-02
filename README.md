@@ -54,6 +54,10 @@ python train_6d_pose.py
 Further details are available in our paper on the subject. If you use this code in an academic context, please consider cite the paper:
 [arxiv version](https://arxiv.org/abs/2001.08942)
 
+# Video
+```
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OhNMngzxFDQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 BiBTeX:
 ```
 @article{gao2020cloudpose,
