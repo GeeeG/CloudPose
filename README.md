@@ -56,8 +56,6 @@ Further details are available in our paper on the subject. If you use this code 
 
 # Video
 ```
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OhNMngzxFDQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 [![Video](https://img.youtube.com/vi/OhNMngzxFDQ/0.jpg)](https://www.youtube.com/watch?v=OhNMngzxFDQ)
 ```
 
