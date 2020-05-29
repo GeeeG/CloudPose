@@ -301,7 +301,7 @@ def setup_graph(general_opts, train_opts, hyperparameters):
 def train_graph(sess, ops, train_writer, training_handle, epoch, count_perClass,
                 axag_loss_perClass, trans_loss_perClass, mean_dist_loss_perClass, logFOut, batch_size, logdir, saver):
     """ ops: dict mapping from string to tf ops """
-    print "==================train======================"
+    print("==================train======================")
     is_training = True
 
     # measure duration of each subprocess
@@ -318,7 +318,7 @@ def train_graph(sess, ops, train_writer, training_handle, epoch, count_perClass,
             if batch_idx != 0 and batch_idx % 2000 == 0:
                 model_dir = "model.ckpt"
                 save_path = saver.save(sess, os.path.join(logdir, model_dir))
-                print "Model saved in file: %s" % save_path
+                print("Model saved in file: %s" % save_path)
 
             feed_dict = {ops['is_training_pl']: is_training, ops['handle']: training_handle}
 
