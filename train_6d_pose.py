@@ -27,20 +27,17 @@ class_names = ["00_master_chef_can", "01_cracker_box", "02_sugar_box", "03_tomat
                "14_power_drill", "15_wood_block", "16_scissors", "17_large_marker", "18_large_clamp", "19_extra_large_clamp", "20_foam_brick"]
 NUM_CLASS = 21
 
-# Global settings
-data_dir = 'ycb_video_tfRecords/FPS1024/'
-object_model_dir = "object_model_tfrecord/obj_models.tfrecords"
+# Global settings, change according to your setup
+data_dir = '/data_c/CloudPose_git/ycb_video_data_tfRecords/FPS1024/'
+object_model_dir = "/data_c/CloudPose_git/object_model_tfrecord/obj_models.tfrecords"
 
-# target_cls = np.arange(21)
-target_cls = [4]
+target_cls = np.arange(21)
 
 train_filenames = []
 for cls in target_cls:
-    for i in range(1):
-        train_filename = data_dir + "train_files_FPS1024_" + str(cls) + "_0.tfrecords"
+    for i in range(2):
+        train_filename = data_dir + "train_files_FPS1024_" + str(cls) + "_" + str(i) + ".tfrecords"
         train_filenames.append(train_filename)
-        # valid_filename = data_dir + "valid_files_FPS1024_" + str(cls) + "_0.tfrecords"
-        # valid_filenames.append(valid_filename)
 
 
 def decode(serialized_example, total_num_point):
@@ -59,7 +56,7 @@ def decode(serialized_example, total_num_point):
   return features
 
 
-def get_small_data(dataset, batch_size, total_num_point):
+def get_tfrecord_data(dataset, batch_size, total_num_point):
     dataset = dataset.map(lambda x: decode(x, total_num_point))
     dataset = dataset.batch(batch_size, drop_remainder=True)
     dataset = dataset.prefetch(1)
@@ -78,6 +75,7 @@ def reshape_element(element, batch_size, total_num_point):
     return element
 
 
+# the object models can be used for visualization and inspectation during training
 def read_and_decode_obj_model(filename):
     models = []
     labels = []
@@ -155,7 +153,7 @@ def setup_graph(general_opts, train_opts, hyperparameters):
 
             with tf.name_scope('prepare_data'):
                 tr_dataset = tf.data.TFRecordDataset(train_filenames).shuffle(1000000)
-                tr_dataset = get_small_data(tr_dataset, batch_size=BATCH_SIZE, total_num_point=TOTAL_NUM_POINT)
+                tr_dataset = get_tfrecord_data(tr_dataset, batch_size=BATCH_SIZE, total_num_point=TOTAL_NUM_POINT)
                 tr_iterator = tr_dataset.make_initializable_iterator()
 
                 iter_handle = tf.placeholder(tf.string, shape=[], name='iterator_handle')
@@ -184,11 +182,11 @@ def setup_graph(general_opts, train_opts, hyperparameters):
 
             tf.summary.scalar('bn_decay', bn_decay)
 
+            # the object models can be used for visualization and inspectation during training
             obj_batch = tf.gather(obj_model_tf, next_element['class_id'], axis=0)
             obj_batch = obj_batch[:, 0:1024, :]
 
             next_element_xyz = next_element['xyz'][:, 0:NUM_POINT, :]
-            next_element_rgb = next_element['rgb'][:, 0:NUM_POINT, :]
 
             cls_gt_onehot = tf.one_hot(indices=next_element['class_id'], depth=len(target_cls))
             cls_gt_onehot_expand = tf.expand_dims(cls_gt_onehot, axis=1)
@@ -343,8 +341,8 @@ def train_graph(sess, ops, train_writer, training_handle, epoch, count_perClass,
                 trans_loss_perClass[c].append(y)
                 mean_dist_loss_perClass[c].append(z)
 
-            print "epoch %d batch %d trans_loss %f axag_loss %f" \
-                  % (epoch, batch_idx, trans_loss, axag_loss)
+            print("epoch %d batch %d trans_loss %f axag_loss %f" \
+                  % (epoch, batch_idx, trans_loss, axag_loss))
 
             # write to tensorboard
             if batch_idx != 0 and batch_idx % 500 == 0:
@@ -368,10 +366,10 @@ def train_graph(sess, ops, train_writer, training_handle, epoch, count_perClass,
             batch_idx = batch_idx + 1
 
         except tf.errors.OutOfRangeError:
-            print('End of data!')
+            print("End of data!")
             model_dir = "model.ckpt"
             save_path = saver.save(sess, os.path.join(logdir, model_dir))
-            print "Model saved in file: %s" % save_path
+            print("Model saved in file: %s" % save_path)
             break
 
     time_elapsed = datetime.now() - start_time
