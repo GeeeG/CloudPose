@@ -50,10 +50,17 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 1. Training data in **tfrecord** format is available
 * Download [zip file](https://drive.google.com/file/d/10gvvJdllvl0mMGvpiwbZ8KEzVlJS2gyZ/view?usp=sharing)
 * Unzip and place all 42 files under **ycb_video_tfRecords/FPS1024/**
+* Change path **data_dir** and **object_model_dir** in **train_6d_pose.py** according to your setup
 2. Run script
 ```
 python train_6d_pose.py
 ```
+3. Log files and trained model is store in **log**
+4. For reproducing the results in the paper, it takes around 22 hours to trained the model for 90 epoches on a TITAN X (Pascal). Better results might be achieved if you have more time and patience for training :D
+
+# Create your own training data
+1. (To be updated) Create your own tfrecord data for training from images.
+
 # Citation
 Further details are available in our paper on the subject. If you use this code in an academic context, please consider cite the paper:
 [arxiv version](https://arxiv.org/abs/2001.08942)
