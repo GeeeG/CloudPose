@@ -47,6 +47,10 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 </p>
 
 # Train a network
+1. Training data in **tfrecord** format is available
+* Download [zip file](https://drive.google.com/file/d/10gvvJdllvl0mMGvpiwbZ8KEzVlJS2gyZ/view?usp=sharing)
+* Unzip and place all 42 files under **ycb_video_tfRecords/FPS1024/**
+2. Run script
 ```
 python train_6d_pose.py
 ```
@@ -60,10 +64,10 @@ Further details are available in our paper on the subject. If you use this code 
 
 BiBTeX:
 ```
-@article{gao2020cloudpose,
+@inproceedings{gao2020cloudpose,
       title={6D Object Pose Regression via Supervised Learning on Point Clouds},
       author={G. Gao, M. Lauri, Y. Wang, X. Hu, J. Zhang and S. Frintrop},
-      journal={arXiv preprint arXiv:2001.08942},
+      booktitle={ICRA},
       year={2020}
     }
 ```
