@@ -66,11 +66,13 @@ This is an example on how to create the **tfrecords** in **ycb_video_tfRecords/F
 1_ycb_to_tfrecord.py
 ```
 This will create files e.g. **0000.tfrecords** (for master_chef_can) in **sort_by_seq**. An example can be downloaded [here](https://drive.google.com/file/d/1ZHT9cfa0siv3KGK-fpYhWh8X7pQVCKdU/view?usp=sharing).
+
 2. Create point cloud segments with pose labels for training by running script
 ```
 2_dataset_to_tfRecord_small.py
 ```
 This will write the training data into **FPS1024**.
+
 Note that the point cloud segment (contains 256 points) is a subsample of original segments (contains ~thousand(s) of points) created with farthest point sampling (FPS) with random starting point.
  
 # Citation
