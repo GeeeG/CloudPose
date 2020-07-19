@@ -49,7 +49,7 @@ python object_6d_pose.py --trained_model trained_network/20190222-130143/model.c
 # Train a network
 1. Training data in **tfrecord** format is available
 * Download [zip file](https://drive.google.com/file/d/10gvvJdllvl0mMGvpiwbZ8KEzVlJS2gyZ/view?usp=sharing)
-* Unzip and place all 42 files under **ycb_video_tfRecords/FPS1024/**
+* Unzip and place all 42 files in **ycb_video_tfRecords/FPS1024/**
 * Change path **data_dir** and **object_model_dir** in **train_6d_pose.py** according to your setup
 2. Run script
 ```
@@ -59,8 +59,20 @@ python train_6d_pose.py
 4. For reproducing the results in the paper, it takes around 22 hours to trained the model for 90 epoches on a TITAN X (Pascal). Better results might be achieved if you have more time and patience for training :D
 
 # Create your own training data
-1. (To be updated) Create your own tfrecord data for training from images.
-
+This is an example on how to create the **tfrecords** in **ycb_video_tfRecords/FPS1024/**.
+1. For an easier data access, we first write the YCB_Video_Dataset in to **tfrecords**, sorted by sequence.
+* In **ycb_video_data_tfRecords/script**, run script
+```
+1_ycb_to_tfrecord.py
+```
+This will create files e.g. **0000.tfrecords** (for master_chef_can) in **sort_by_seq**. An example can be downloaded [here](https://drive.google.com/file/d/1ZHT9cfa0siv3KGK-fpYhWh8X7pQVCKdU/view?usp=sharing).
+2. Create point cloud segments with pose labels for training by running script
+```
+2_dataset_to_tfRecord_small.py
+```
+This will write the training data into **FPS1024**.
+Note that the point cloud segment (contains 256 points) is a subsample of original segments (contains ~thousand(s) of points) created with farthest point sampling (FPS) with random starting point.
+ 
 # Citation
 Further details are available in our paper on the subject. If you use this code in an academic context, please consider cite the paper:
 [arxiv version](https://arxiv.org/abs/2001.08942)
