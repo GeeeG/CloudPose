@@ -73,7 +73,7 @@ This will create files e.g. **0000.tfrecords** (for master_chef_can) in **sort_b
 ```
 This will write the training data into **FPS1024**.
 
-Note that the point cloud segment (contains 256 points) is a subsample of original segments (contains ~thousand(s) of points) created with farthest point sampling (FPS) with random starting point.
+Note that the point cloud segment (contains 256 points) is a **small** subsample of original segments (contains ~thousand(s) of points) created with farthest point sampling (FPS) with random starting point.
  
 # Citation
 Further details are available in our paper on the subject. If you use this code in an academic context, please consider cite the paper:
